@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { useToast } from '@/components/ui/use-toast';
 
 function App() {
+    const { toast } = useToast();
+
     useEffect(() => {
         const randomWholeNumber = Math.floor(Math.random() * 25);
         const randomWholeNumber2 = Math.floor(Math.random() * 25);
@@ -53,6 +56,17 @@ function App() {
                 className='bg-black text-white text-2xl p-5 rounded-md font-space'
             >
                 Continue
+            </button>
+
+            <button
+                onClick={() => {
+                    toast({
+                        title: 'Scheduled: Catch up',
+                        description: 'Friday, February 10, 2023 at 5:57 PM',
+                    });
+                }}
+            >
+                toast
             </button>
         </div>
     );
