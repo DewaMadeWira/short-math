@@ -1,9 +1,35 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useToast } from '@/components/ui/use-toast';
+import axios from 'axios';
 
-function App() {
+import { useQuery } from '@tanstack/react-query';
+import { Redirect } from 'wouter';
+
+// interface Data {
+//     id: number;
+//     full_url: string;
+//     short_url: string;
+
+// }
+
+type ParamsType = {
+    params: string;
+};
+
+interface Data {
+    full_url: string;
+}
+
+function App({ params }: ParamsType) {
     const { toast } = useToast();
+    const { data, isLoading } = useQuery({
+        queryFn: async () => {
+            const { data } = await axios.get(`http://localhost:8080/${params}`);
+
+            return data as Data;
+        },
+    });
 
     useEffect(() => {
         const randomWholeNumber = Math.floor(Math.random() * 25);
@@ -15,6 +41,7 @@ function App() {
         setNum1(randomWholeNumber);
         setNum2(randomWholeNumber2);
         setResult(sum);
+        console.log(data);
     }, []);
 
     const [input, setInput] = useState('');
@@ -22,15 +49,62 @@ function App() {
     const [num2, setNum2] = useState(0);
     const [result, setResult] = useState(0);
 
+    if (isLoading) {
+        return (
+            <div className='h-screen flex justify-center items-center flex-col px-5 text-center'>
+                <h1 className='font-mulish text-6xl font-bold'>Loading..</h1>
+            </div>
+        );
+    }
+
+    if (data?.full_url == '') {
+        return (
+            <div className='h-screen flex justify-center items-center flex-col px-5 text-center'>
+                <h1 className='font-mulish text-8xl font-bold'>404</h1>
+                <h2 className='font-space text-4xl'>
+                    Your url cannot be found ! return to home.
+                </h2>
+            </div>
+        );
+    }
+    // const { data, isLoading } = useQuery({
+    //     queryFn: async () => {
+    //         const { data } = await axios.get('http://localhost:8080/');
+    //         return [data] as Data[];
+    //     },
+    // });
+
     function checker() {
+        if (data == null) {
+            return 'something went wrong';
+        }
         if (Number(input) == result) {
-            console.log('Correct');
-            return;
+            // return console.log('true');
+
+            setTimeout(() => {
+                // 👇️ redirects to an external URL
+                window.location.replace(data.full_url);
+            }, 500);
+
+            // clearTimeout(timeout);
+
+            toast({
+                title: 'Correct !',
+                description: 'You will be redirected soon',
+            });
+
+            // return (
+            //     <div className='h-screen flex justify-center items-center text-6xl font-space'>
+            //         Redirecting...
+            //     </div>
+            // );
+            // return (<Redirect to={`/redirect/${data.full_url}`}></Redirect>)
         }
         console.log('Wrong !');
     }
     return (
         <div className='h-screen bg-whiteBg flex flex-col items-center'>
+            {/* {isLoading ? console.log('loading') : console.log('finished')} */}
             <h1 className='text-4xl font-mulish font-bold'>Short Math </h1>
             <h2 className='text-2xl font-space mt-10'>
                 URL Shortener with simple Math quiz
@@ -58,16 +132,7 @@ function App() {
                 Continue
             </button>
 
-            <button
-                onClick={() => {
-                    toast({
-                        title: 'Scheduled: Catch up',
-                        description: 'Friday, February 10, 2023 at 5:57 PM',
-                    });
-                }}
-            >
-                toast
-            </button>
+            
         </div>
     );
 }
