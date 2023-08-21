@@ -5,7 +5,7 @@ import './index.css';
 import { Toaster } from '@/components/ui/toaster';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { Route } from 'wouter';
-import RedirectPage from './redirect.tsx';
+
 import Home from './Home.tsx';
 
 const queryClient = new QueryClient();
