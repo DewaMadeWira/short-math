@@ -108,7 +108,7 @@ function Home() {
                                                 `${window.location.href}${mutation.data.short_url}`
                                             );
                                         }}
-                                        className='text-3xl font-space font-bold  mt-10 hover:cursor-pointer '
+                                        className='text-2xl font-space   mt-10 hover:cursor-pointer '
                                     >
                                         {`${window.location.href}${mutation.data.short_url}`}
                                     </h4>

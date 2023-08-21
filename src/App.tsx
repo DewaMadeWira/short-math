@@ -91,6 +91,7 @@ function App({ params }: ParamsType) {
             toast({
                 title: 'Correct !',
                 description: 'You will be redirected soon',
+                className: 'bg-purple',
             });
 
             // return (
@@ -100,10 +101,14 @@ function App({ params }: ParamsType) {
             // );
             // return (<Redirect to={`/redirect/${data.full_url}`}></Redirect>)
         }
-        console.log('Wrong !');
+        toast({
+            title: 'Incorrect Answer ',
+            description: 'Try again ! you can do it.',
+            className: 'bg-purple',
+        });
     }
     return (
-        <div className='h-screen bg-whiteBg flex flex-col items-center'>
+        <div className='h-screen bg-whiteBg flex flex-col items-center justify-center'>
             {/* {isLoading ? console.log('loading') : console.log('finished')} */}
             <h1 className='text-4xl font-mulish font-bold'>Short Math </h1>
             <h2 className='text-2xl font-space mt-10'>
@@ -127,12 +132,13 @@ function App({ params }: ParamsType) {
             </div>
             <button
                 onMouseUp={checker}
-                className='bg-black text-white text-2xl p-5 rounded-md font-space'
+                className='rounded-md bg-purple mt-10 text-white font-space'
             >
-                Continue
+                <span className='block -translate-x-1 -translate-y-1 rounded-md border-2 border-black bg-black p-3 text-xl transition-all hover:-translate-x-2 hover:-translate-y-2 active:translate-x-0 active:translate-y-0'>
+                    {' '}
+                    Continue URL{' '}
+                </span>
             </button>
-
-            
         </div>
     );
 }
