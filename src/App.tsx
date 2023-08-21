@@ -26,7 +26,7 @@ function App({ params }: ParamsType) {
     const { data, isLoading } = useQuery({
         queryFn: async () => {
             const { data } = await axios.get(
-                `https://url-shortener-pied-ten.vercel.app//${params}`
+                `https://url-shortener-pied-ten.vercel.app/${params}`
             );
 
             return data as Data;
