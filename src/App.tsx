@@ -4,7 +4,6 @@ import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 
 import { useQuery } from '@tanstack/react-query';
-import { Redirect } from 'wouter';
 import { motion } from 'framer-motion';
 
 // interface Data {
